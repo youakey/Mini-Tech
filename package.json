@@ -9,14 +9,10 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "postbuild": "next-sitemap",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
-    "@opennextjs/cloudflare": "^1.19.9",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
