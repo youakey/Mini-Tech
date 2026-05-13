@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: REPLACE — замените на реальный домен
+Sitemap: https://example.by/sitemap.xml

@@ -1,0 +1,14 @@
+name = "miniteh-brest-telegram"
+main = "index.ts"
+compatibility_date = "2024-01-01"
+
+# TODO: REPLACE — замените на реальный домен после настройки
+# routes = [
+#   { pattern = "example.by/api/*", zone_name = "example.by" }
+# ]
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+# TODO: REPLACE — выполните `wrangler kv:namespace create RATE_LIMIT` и вставьте id
+id = "f0ec931bd5854f00867d97ba5ac75f9d"
+preview_id = "03555018a1b84918af0685e4bf250c15"
