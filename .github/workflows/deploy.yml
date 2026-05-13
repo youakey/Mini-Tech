@@ -40,4 +40,4 @@ jobs:
           publish_dir: ./out
           # Если сайт в поддиректории репозитория — раскомментируйте:
           # destination_dir: subdirectory
-          cname: example.by  # TODO: REPLACE — ваш реальный домен
+          #cname: example.by  # TODO: REPLACE — ваш реальный домен
