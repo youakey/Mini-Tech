@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IMaskInput } from 'react-imask';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { Button } from '@/components/ui/Button';
 import { FormField } from './FormField';
 import { FormSuccess } from './FormSuccess';
 import { LeadFormSchema, type LeadFormData } from '@/lib/validation';
 import { submitLead } from '@/lib/telegram';
 import { trackEvent } from '@/lib/analytics';
+import { API } from '@/lib/constants';
 import Link from 'next/link';
 
 interface LeadFormProps {
@@ -19,7 +21,7 @@ interface LeadFormProps {
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
-// Основная форма заявки с маской телефона, honey-pot и отправкой в Telegram
+// Основная форма заявки с маской телефона, Turnstile, honey-pot и отправкой в Telegram
 export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -29,6 +31,7 @@ export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(LeadFormSchema),
@@ -174,6 +177,16 @@ export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
           </p>
         )}
       </div>
+
+      {/* Turnstile — рендерится только если задан NEXT_PUBLIC_TURNSTILE_SITE_KEY */}
+      {API.turnstileSiteKey && (
+        <Turnstile
+          siteKey={API.turnstileSiteKey}
+          onSuccess={(token) => setValue('turnstileToken', token)}
+          onExpire={() => setValue('turnstileToken', '')}
+          options={{ theme: 'dark', language: 'ru' }}
+        />
+      )}
 
       {/* Ошибка отправки */}
       {formState === 'error' && (
