@@ -56,8 +56,12 @@ function BadgeIcon({ iconKey, size = 22 }: { iconKey: BadgeIconKey; size?: numbe
   }
 }
 
-/** Рендер одного блока контента */
-function DetailBlockRenderer({ block }: { block: DetailBlock }) {
+/**
+ * Рендер одного блока контента.
+ * compact=true — используется внутри two-col колонки: grid-cards рендерится
+ * вертикальным списком вместо сетки, чтобы текст не обрезался в узкой колонке.
+ */
+function DetailBlockRenderer({ block, compact = false }: { block: DetailBlock; compact?: boolean }) {
   switch (block.type) {
     case 'checklist':
     case 'included':
@@ -68,7 +72,8 @@ function DetailBlockRenderer({ block }: { block: DetailBlock }) {
             {block.items.map((item) => (
               <li key={item} className="flex items-start gap-3">
                 <CheckCircle2 size={20} className="text-accent shrink-0 mt-0.5" />
-                <span className="text-text-muted">{item}</span>
+                {/* min-w-0 обязателен у flex-child, иначе overflow не работает */}
+                <span className="text-text-muted min-w-0 break-words hyphens-auto">{item}</span>
               </li>
             ))}
           </ul>
@@ -79,19 +84,38 @@ function DetailBlockRenderer({ block }: { block: DetailBlock }) {
       return (
         <div>
           <h2 className="font-heading font-bold text-2xl text-text mb-6">{block.heading}</h2>
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {block.items.map((item) => (
-              <li key={item.name} className="bg-bg border border-border rounded-2xl p-5">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 size={20} className="text-accent shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-text">{item.name}</div>
-                    <div className="text-text-muted text-sm mt-1">{item.desc}</div>
+          {compact ? (
+            /* В two-col колонке — вертикальный список, карточки полной ширины */
+            <ul className="space-y-3">
+              {block.items.map((item) => (
+                <li key={item.name} className="bg-bg border border-border rounded-xl px-4 py-3">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-accent shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <div className="font-medium text-text break-words hyphens-auto">{item.name}</div>
+                      <div className="text-text-muted text-sm mt-0.5 break-words hyphens-auto">{item.desc}</div>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            /* В full-width секции — сетка с равной высотой строк */
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 [grid-auto-rows:1fr]">
+              {block.items.map((item) => (
+                <li key={item.name} className="bg-bg border border-border rounded-2xl p-5 flex flex-col">
+                  <div className="flex items-start gap-3 h-full">
+                    <CheckCircle2 size={20} className="text-accent shrink-0 mt-0.5" />
+                    {/* min-w-0: flex-child не shrinks ниже content без этого */}
+                    <div className="min-w-0 flex flex-col">
+                      <div className="font-medium text-text break-words hyphens-auto">{item.name}</div>
+                      <div className="text-text-muted text-sm mt-1 break-words hyphens-auto">{item.desc}</div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       );
 
@@ -189,7 +213,7 @@ function DetailSectionRenderer({ section, bg }: { section: DetailSection; bg: st
     return (
       <section className={`section ${bg}`} aria-labelledby={undefined}>
         <div className={`container-site ${isCentered ? 'max-w-4xl' : ''}`}>
-          <DetailBlockRenderer block={section.block} />
+          <DetailBlockRenderer block={section.block} compact={false} />
         </div>
       </section>
     );
@@ -198,9 +222,14 @@ function DetailSectionRenderer({ section, bg }: { section: DetailSection; bg: st
   return (
     <section className={`section ${bg}`}>
       <div className="container-site max-w-4xl">
+        {/* min-w-0 на каждой колонке — иначе grid-child не обрезает overflow */}
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          <DetailBlockRenderer block={section.left} />
-          <DetailBlockRenderer block={section.right} />
+          <div className="min-w-0">
+            <DetailBlockRenderer block={section.left} compact />
+          </div>
+          <div className="min-w-0">
+            <DetailBlockRenderer block={section.right} compact />
+          </div>
         </div>
       </div>
     </section>
