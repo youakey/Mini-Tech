@@ -25,7 +25,7 @@ export const CONTACTS = {
   // TODO: REPLACE — замените на реальный email
   email: 'minitechbrest@gmail.com',
   // TODO: REPLACE — замените на реальный адрес
-  address: 'г. Брест, ул. _________',
+  address: 'г. Брест, Надежденский пер., 8',
   // TODO: REPLACE — замените на реальные координаты
   lat: 52.0976,
   lng: 23.6856,
