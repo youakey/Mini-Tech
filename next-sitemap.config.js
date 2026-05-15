@@ -1,7 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   // TODO: REPLACE — замените на реальный домен после настройки
-  siteUrl: process.env.SITE_URL || 'https://example.by',
+  siteUrl: process.env.SITE_URL || 'https://mini-tech.by',
   generateRobotsTxt: false, // robots.txt создаём вручную в /public
   generateIndexSitemap: false,
   outDir: './out',

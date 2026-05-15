@@ -2,8 +2,6 @@
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
-  basePath: '/Mini-Tech',
-  assetPrefix: '/Mini-Tech',
   images: {
     unoptimized: true,
   },

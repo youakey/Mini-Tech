@@ -2,8 +2,7 @@
 // Ищите "TODO: REPLACE" для быстрой замены заполнителей
 
 export const SITE = {
-  // TODO: REPLACE — замените на реальный домен
-  url: 'https://example.by',
+  url: 'https://mini-tech.by',
   name: 'МиниТех Брест',
   description:
     'Аренда строительной мини-техники с оператором в Бресте и Брестской области. Мини-экскаватор Volvo EC25 и мини-погрузчик CAT 226B.',
@@ -13,18 +12,18 @@ export const SITE = {
 
 export const CONTACTS = {
   // TODO: REPLACE — замените на реальный номер телефона
-  phone: '+375 XX XXX-XX-XX',
-  phoneHref: 'tel:+375XXXXXXXXX',
+  phone: '+375 25 900-77-77',
+  phoneHref: 'tel:+375259007777',
   // TODO: REPLACE — замените на реальный Telegram username
-  telegram: '@username',
-  telegramHref: 'https://t.me/username',
+  telegram: '@Nazik1312',
+  telegramHref: 'https://t.me/Nazik1312',
   // TODO: REPLACE — замените на реальный WhatsApp номер (международный формат без +)
-  whatsapp: '375XXXXXXXXX',
-  whatsappHref: 'https://wa.me/375XXXXXXXXX',
+  whatsapp: '375259007777',
+  whatsappHref: 'https://wa.me/375259007777',
   // TODO: REPLACE — замените на реальный Viber номер
-  viberHref: 'viber://chat?number=375XXXXXXXXX',
+  viberHref: 'viber://chat?number=375259007777',
   // TODO: REPLACE — замените на реальный email
-  email: 'info@example.by',
+  email: 'minitechbrest@gmail.com',
   // TODO: REPLACE — замените на реальный адрес
   address: 'г. Брест, ул. _________',
   // TODO: REPLACE — замените на реальные координаты
@@ -115,7 +114,7 @@ export const SEO = {
 
 // TODO: REPLACE — замените после настройки Cloudflare Worker
 export const API = {
-  workerUrl: process.env.NEXT_PUBLIC_WORKER_URL || 'https://your-worker.workers.dev',
+  workerUrl: process.env.NEXT_PUBLIC_WORKER_URL || 'https://miniteh-brest-telegram.ryzoviosif.workers.dev',
   turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
 } as const;
 
