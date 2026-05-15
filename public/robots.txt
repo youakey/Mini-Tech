@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /thank-you/
 
-# TODO: REPLACE — замените на реальный домен
-Sitemap: https://example.by/sitemap.xml
+Sitemap: https://mini-tech.by/sitemap.xml

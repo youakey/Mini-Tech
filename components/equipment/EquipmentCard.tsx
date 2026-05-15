@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Weight, Ruler, Package } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -41,6 +42,8 @@ export function EquipmentCard({
   href,
   price,
 }: EquipmentCardProps) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <motion.div
       whileHover={{ y: -6, transition: { duration: 0.25 } }}
@@ -48,15 +51,26 @@ export function EquipmentCard({
     >
       {/* Фото техники */}
       <div className="relative overflow-hidden rounded-xl mb-6 bg-surface-2 aspect-[16/9]">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          loading="lazy"
-          decoding="async"
-        />
+        {!imgError ? (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            loading="lazy"
+            decoding="async"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          /* Fallback когда файл изображения отсутствует */
+          <div className="absolute inset-0 flex items-center justify-center bg-surface-2">
+            <div className="text-center">
+              <div className="text-4xl font-mono font-bold text-accent/30 mb-2">МТ</div>
+              <div className="text-text-muted text-xs">{imageAlt}</div>
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent" />
         <div className="absolute bottom-4 left-4 bg-bg/80 backdrop-blur-sm border border-border rounded-lg px-3 py-1.5">
           <span className="text-accent font-mono font-medium text-sm">{price}</span>

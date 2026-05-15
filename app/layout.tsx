@@ -4,6 +4,9 @@ import { ThemeProvider } from 'next-themes';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { CallbackButton } from '@/components/ui/CallbackButton';
+import { BackToTop } from '@/components/ui/BackToTop';
+import { CookieNotice } from '@/components/ui/CookieNotice';
 import { organizationSchema } from '@/lib/schemas';
 import { SEO, SITE, CONTACTS, ANALYTICS } from '@/lib/constants';
 import './globals.css';
@@ -92,7 +95,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#F59E0B" />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="msapplication-TileColor" content="#F59E0B" />
         <meta name="theme-color" content="#0A0A0A" />
         <meta name="geo.region" content="BY-BR" />
         <meta name="geo.placename" content="Брест" />
@@ -123,6 +129,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* pt-16/pt-20 компенсирует высоту fixed header (h-16 mobile / h-20 sm+) */}
           <main id="main-content" className="pt-16 sm:pt-20">{children}</main>
           <Footer />
+          <CallbackButton />
+          <BackToTop />
+          <CookieNotice />
         </ThemeProvider>
 
         {/* JSON-LD Organization на всех страницах */}
