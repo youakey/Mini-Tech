@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
 import { CONTACTS, WORKING_HOURS, SITE, NAV_LINKS } from '@/lib/constants';
+import { EQUIPMENT_DATA } from '@/data/equipment';
+import { SERVICES_DATA } from '@/data/services';
 
 const currentYear = new Date().getFullYear();
 
@@ -79,11 +81,14 @@ export function Footer() {
             </h3>
             <ul className="space-y-2.5">
               {[
-                { label: 'Аренда мини-экскаватора', href: '/equipment/volvo-ec25/' },
-                { label: 'Аренда мини-погрузчика', href: '/equipment/cat-226b/' },
-                { label: 'Вывоз мусора', href: '/services/waste-removal/' },
-                { label: 'Снос и демонтаж', href: '/services/demolition/' },
-                { label: 'Доставка техники', href: '/services/delivery/' },
+                ...[...EQUIPMENT_DATA].sort((a, b) => a.order - b.order).map((e) => ({
+                  label: e.name,
+                  href: `/equipment/${e.slug}/`,
+                })),
+                ...[...SERVICES_DATA].sort((a, b) => a.order - b.order).map((s) => ({
+                  label: s.name,
+                  href: `/services/${s.slug}/`,
+                })),
               ].map((item) => (
                 <li key={item.label}>
                   <Link

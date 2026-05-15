@@ -1,16 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { EquipmentCard, EXCAVATOR_SPECS, LOADER_SPECS } from '@/components/equipment/EquipmentCard';
-import { PRICES } from '@/lib/constants';
+import { EquipmentCard } from '@/components/equipment/EquipmentCard';
+import { EQUIPMENT_DATA } from '@/data/equipment';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   visible: { opacity: 1, y: 0 },
 };
 
-// Секция "Наша техника" на главной
+// Секция «Наша техника» на главной — автоматически берёт featured:true из data/equipment.ts
 export function EquipmentSection() {
+  const featured = [...EQUIPMENT_DATA]
+    .filter((e) => e.featured)
+    .sort((a, b) => a.order - b.order);
+
   return (
     <section className="section bg-bg" aria-labelledby="equipment-heading">
       <div className="container-site">
@@ -37,31 +41,20 @@ export function EquipmentSection() {
           variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
-          <motion.div variants={fadeUp}>
-            <EquipmentCard
-              id="volvo-ec25"
-              name="Мини-экскаватор Volvo EC25"
-              description="Компактный экскаватор с нулевым радиусом поворота. Идеален для работы в стеснённых условиях: у заборов, деревьев, построек. Рытьё котлованов под фундамент и септики в Бресте."
-              imageSrc="/images/volvo-ec25-thumb.webp"
-              imageAlt="Мини-экскаватор Volvo EC25 в работе в Бресте — рытьё котлована"
-              specs={EXCAVATOR_SPECS}
-              href="/equipment/volvo-ec25/"
-              price={PRICES.excavator.hourly}
-            />
-          </motion.div>
-
-          <motion.div variants={fadeUp}>
-            <EquipmentCard
-              id="cat-226b"
-              name="Мини-погрузчик CAT 226B"
-              description="Универсальный погрузчик с быстросменным навесным оборудованием: ковш, вилы, гидромолот, планировочный отвал. Незаменим на стройплощадках Бреста и Брестской области."
-              imageSrc="/images/cat-226b-thumb.webp"
-              imageAlt="Мини-погрузчик CAT 226B с ковшом — аренда в Бресте"
-              specs={LOADER_SPECS}
-              href="/equipment/cat-226b/"
-              price={PRICES.loader.hourly}
-            />
-          </motion.div>
+          {featured.map((equipment) => (
+            <motion.div key={equipment.slug} variants={fadeUp}>
+              <EquipmentCard
+                id={equipment.slug}
+                name={equipment.name}
+                description={equipment.shortDescription}
+                imageSrc={equipment.images[0]?.src ?? '/images/equipment-placeholder.webp'}
+                imageAlt={equipment.images[0]?.alt ?? equipment.name}
+                cardSpecs={equipment.cardSpecs}
+                href={`/equipment/${equipment.slug}/`}
+                price={equipment.priceDisplay}
+              />
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

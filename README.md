@@ -41,6 +41,59 @@ npm run dev
 
 ---
 
+## Как добавить новую технику или услугу
+
+Добавление занимает ~5 минут и не требует трогать страницы, навигацию или компоненты.
+
+### Добавить новую единицу техники
+
+1. **Откройте `data/equipment.ts`**
+2. **Скопируйте существующий объект** (например, блок `volvo-ec25`) и добавьте его в конец массива `EQUIPMENT_DATA`
+3. **Заполните поля:**
+   ```ts
+   {
+     slug: 'новый-экскаватор',       // URL будет /equipment/новый-экскаватор/
+     name: 'Название техники',
+     type: 'excavator',              // или 'loader' | 'other'
+     category: 'Мини-экскаватор',
+     shortDescription: '...',        // для карточки на главной
+     specs: [...],                   // таблица ТТХ
+     cardSpecs: [...],               // 3 параметра для карточки
+     capabilities: [...],            // что умеет делать
+     priceDisplay: 'от XX BYN/час',
+     priceNote: 'минимальный заказ X часов',
+     minBooking: 'X часов',
+     images: [{ src: '/images/equipment/slug/thumb.webp', alt: '...' }],
+     modelGlb: '/models/slug.glb',   // опционально
+     featured: true,                 // показывать на главной
+     order: 3,                       // порядок сортировки
+     seo: { title, metaDescription, ogDescription, ... }
+   }
+   ```
+4. **Положите фото** в `public/images/equipment/[slug]/`:
+   - `thumb.webp` — для карточки на главной (400×300)
+   - `main.webp` — для hero страницы (1600×1000)
+   - `og.webp` — для Open Graph превью (1200×630)
+5. **Соберите и запушьте:**
+   ```bash
+   npm run build && git add . && git commit -m "feat: add new equipment" && git push
+   ```
+
+Готово — страница `/equipment/slug/`, карточка на главной и пункт в меню появятся автоматически.
+
+---
+
+### Добавить новую услугу
+
+1. **Откройте `data/services.ts`**
+2. **Скопируйте существующий объект** и добавьте в конец массива `SERVICES_DATA`
+3. **Заполните поля** (аналогично технике: `slug`, `serviceType`, `name`, `hero`, `detailSections`, `seoText`, `seo`)
+4. **Зарегистрируйте `serviceType`** в схеме Zod: `lib/validation.ts` → добавьте новое значение в `ServiceType`
+5. **Добавьте логику в Worker** (`workers/telegram-bot/index.ts`) для обработки нового типа формы
+6. **Соберите и запушьте** — страница, карточка на главной и пункт в меню появятся автоматически
+
+---
+
 ## Команды
 
 | Команда | Описание |

@@ -3,14 +3,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Zap, Weight, Ruler } from 'lucide-react';
+import { ArrowRight, Zap, Weight, Ruler, Package } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { trackEvent } from '@/lib/analytics';
+import type { SpecIconKey, EquipmentCardSpec } from '@/data/equipment';
 
-interface EquipmentSpec {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
+/** Маппинг iconKey → Lucide иконка */
+function SpecIcon({ iconKey }: { iconKey: SpecIconKey }) {
+  switch (iconKey) {
+    case 'weight':   return <Weight size={16} />;
+    case 'power':    return <Zap size={16} />;
+    case 'depth':    return <Ruler size={16} />;
+    case 'lift':     return <Package size={16} />;
+    case 'tip-load': return <Weight size={16} />;
+  }
 }
 
 interface EquipmentCardProps {
@@ -19,19 +25,19 @@ interface EquipmentCardProps {
   description: string;
   imageSrc: string;
   imageAlt: string;
-  specs: EquipmentSpec[];
+  cardSpecs: EquipmentCardSpec[];
   href: string;
   price: string;
 }
 
-// Карточка техники с hover-эффектом поднятия и свечения акцентного цвета
+/** Карточка техники с hover-эффектом поднятия и свечения акцентного цвета */
 export function EquipmentCard({
   id,
   name,
   description,
   imageSrc,
   imageAlt,
-  specs,
+  cardSpecs,
   href,
   price,
 }: EquipmentCardProps) {
@@ -67,10 +73,10 @@ export function EquipmentCard({
 
       {/* Ключевые ТТХ */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        {specs.map((spec, i) => (
-          <div key={i} className="bg-surface-2 rounded-xl p-3 text-center">
+        {cardSpecs.map((spec) => (
+          <div key={spec.label} className="bg-surface-2 rounded-xl p-3 text-center">
             <div className="text-accent flex justify-center mb-1" aria-hidden="true">
-              {spec.icon}
+              <SpecIcon iconKey={spec.iconKey} />
             </div>
             <p className="text-text font-mono font-medium text-xs leading-tight">{spec.value}</p>
             <p className="text-text-muted text-xs mt-0.5">{spec.label}</p>
@@ -97,16 +103,3 @@ export function EquipmentCard({
     </motion.div>
   );
 }
-
-// Данные для карточек техники (используются на главной)
-export const EXCAVATOR_SPECS: EquipmentSpec[] = [
-  { icon: <Weight size={16} />, label: 'Масса', value: '2 580 кг' },
-  { icon: <Zap size={16} />, label: 'Мощность', value: '25 л.с.' },
-  { icon: <Ruler size={16} />, label: 'Глубина', value: '2 840 мм' },
-];
-
-export const LOADER_SPECS: EquipmentSpec[] = [
-  { icon: <Weight size={16} />, label: 'Г/п ковша', value: '567 кг' },
-  { icon: <Zap size={16} />, label: 'Мощность', value: '57 л.с.' },
-  { icon: <Ruler size={16} />, label: 'Опрок.', value: '1 134 кг' },
-];

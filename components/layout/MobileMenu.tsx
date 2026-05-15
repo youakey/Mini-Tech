@@ -6,11 +6,24 @@ import { usePathname } from 'next/navigation';
 import { X, Phone, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, CONTACTS } from '@/lib/constants';
+import { EQUIPMENT_DATA } from '@/data/equipment';
+import { SERVICES_DATA } from '@/data/services';
 import { trackEvent } from '@/lib/analytics';
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+function getDropdownItems(type: 'equipment' | 'services') {
+  if (type === 'equipment') {
+    return [...EQUIPMENT_DATA]
+      .sort((a, b) => a.order - b.order)
+      .map((e) => ({ label: e.name, href: `/equipment/${e.slug}/` }));
+  }
+  return [...SERVICES_DATA]
+    .sort((a, b) => a.order - b.order)
+    .map((s) => ({ label: s.name, href: `/services/${s.slug}/` }));
 }
 
 // Полноэкранное мобильное меню с анимацией slide-in
@@ -75,7 +88,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <nav className="flex-1 p-5" aria-label="Мобильная навигация">
               <ul className="space-y-1">
                 {NAV_LINKS.map((link, i) => {
-                  const hasChildren = 'children' in link && link.children;
+                  const hasDropdown = 'hasDropdown' in link ? link.hasDropdown : undefined;
 
                   return (
                     <motion.li
@@ -84,14 +97,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 + 0.1 }}
                     >
-                      {hasChildren ? (
+                      {hasDropdown ? (
                         <div>
                           <span className="block px-3 py-2 text-xs font-semibold uppercase tracking-widest text-text-muted">
                             {link.label}
                           </span>
                           <ul className="ml-2 space-y-0.5 border-l border-border pl-4">
-                            {link.children?.map((child) => (
-                              <li key={child.label}>
+                            {getDropdownItems(hasDropdown).map((child) => (
+                              <li key={child.href}>
                                 <Link
                                   href={child.href}
                                   className="block py-2.5 text-text-muted hover:text-accent transition-colors duration-150 text-base"

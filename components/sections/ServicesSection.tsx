@@ -6,61 +6,40 @@ import { Trash2, Hammer, Truck, ArrowRight } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { ServiceForm } from '@/components/forms/ServiceForm';
 import { trackEvent } from '@/lib/analytics';
+import { SERVICES_DATA } from '@/data/services';
+import type { ServiceIconKey } from '@/data/services';
 import type { ServiceType } from '@/lib/validation';
-import { PRICES } from '@/lib/constants';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   visible: { opacity: 1, y: 0 },
 };
 
-interface Service {
-  id: ServiceType;
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  price: string;
-  bullets: string[];
+/** Маппинг iconKey → Lucide иконка */
+function ServiceIcon({ iconKey }: { iconKey: ServiceIconKey }) {
+  switch (iconKey) {
+    case 'trash':  return <Trash2 size={28} />;
+    case 'hammer': return <Hammer size={28} />;
+    case 'truck':  return <Truck size={28} />;
+  }
+}
+
+interface ActiveService {
+  serviceType: ServiceType;
   modalTitle: string;
 }
 
-const SERVICES: Service[] = [
-  {
-    id: 'waste',
-    icon: <Trash2 size={28} />,
-    title: 'Вывоз мусора',
-    description: 'Строительный, бытовой, растительный мусор. Работаем с погрузчиком и кузовными автомобилями.',
-    price: PRICES.wasteRemoval,
-    bullets: ['Погрузка и вывоз', 'Любой тип мусора', 'Брест и область'],
-    modalTitle: 'Заявка на вывоз мусора',
-  },
-  {
-    id: 'demolition',
-    icon: <Hammer size={28} />,
-    title: 'Снос и демонтаж',
-    description: 'Снос сараев, гаражей, старых домов. Демонтаж перегородок, фундаментов. Быстро и безопасно.',
-    price: PRICES.demolition,
-    bullets: ['Сараи, гаражи, дома', 'Перегородки, стены', 'Вывоз мусора включён'],
-    modalTitle: 'Заявка на демонтаж',
-  },
-  {
-    id: 'delivery',
-    icon: <Truck size={28} />,
-    title: 'Доставка техники',
-    description: 'Доставляем экскаватор или погрузчик на ваш объект по Бресту и Брестской области.',
-    price: PRICES.delivery,
-    bullets: ['Весь Брест и BО', 'Транспортёр низкорамный', 'Оперативный выезд'],
-    modalTitle: 'Заявка на доставку техники',
-  },
-];
-
-// Секция услуг — клик открывает модальное окно с соответствующей формой
+// Секция услуг — автоматически берёт featured:true из data/services.ts
 export function ServicesSection() {
-  const [activeService, setActiveService] = useState<Service | null>(null);
+  const [activeService, setActiveService] = useState<ActiveService | null>(null);
 
-  const openModal = (service: Service) => {
-    setActiveService(service);
-    trackEvent('service_modal_open', { service: service.id });
+  const featured = [...SERVICES_DATA]
+    .filter((s) => s.featured)
+    .sort((a, b) => a.order - b.order);
+
+  const openModal = (service: (typeof featured)[number]) => {
+    setActiveService({ serviceType: service.serviceType, modalTitle: service.modalTitle });
+    trackEvent('service_modal_open', { service: service.serviceType });
   };
 
   return (
@@ -89,27 +68,27 @@ export function ServicesSection() {
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {SERVICES.map((service) => (
+          {featured.map((service) => (
             <motion.button
-              key={service.id}
+              key={service.slug}
               variants={fadeUp}
               onClick={() => openModal(service)}
               className="group card card-hover text-left w-full cursor-pointer"
-              aria-label={`Оставить заявку: ${service.title}`}
+              aria-label={`Оставить заявку: ${service.name}`}
             >
               {/* Иконка */}
               <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center
                               text-accent mb-5 group-hover:bg-accent group-hover:text-bg transition-all duration-300">
-                {service.icon}
+                <ServiceIcon iconKey={service.iconKey} />
               </div>
 
               {/* Название */}
               <h3 className="font-heading font-bold text-text text-xl mb-2 group-hover:text-accent transition-colors">
-                {service.title}
+                {service.name}
               </h3>
 
               {/* Описание */}
-              <p className="text-text-muted text-sm leading-relaxed mb-4">{service.description}</p>
+              <p className="text-text-muted text-sm leading-relaxed mb-4">{service.shortDescription}</p>
 
               {/* Буллиты */}
               <ul className="space-y-1.5 mb-5">
@@ -123,7 +102,9 @@ export function ServicesSection() {
 
               {/* Цена + стрелка */}
               <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
-                <span className="text-accent font-mono font-semibold text-sm">{service.price}</span>
+                <span className="text-accent font-mono font-semibold text-sm">
+                  {service.priceDisplay}
+                </span>
                 <ArrowRight
                   size={18}
                   className="text-text-muted group-hover:text-accent group-hover:translate-x-1 transition-all duration-200"
@@ -143,7 +124,7 @@ export function ServicesSection() {
       >
         {activeService && (
           <ServiceForm
-            serviceType={activeService.id}
+            serviceType={activeService.serviceType}
             onSuccess={() => setActiveService(null)}
           />
         )}

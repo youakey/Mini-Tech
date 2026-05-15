@@ -123,26 +123,13 @@ export const ANALYTICS = {
   plausibleDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || '',
 } as const;
 
-// Навигационные ссылки
+// Навигационные ссылки верхнего уровня.
+// Дочерние пункты «Техника» и «Услуги» генерируются динамически в Nav.tsx и MobileMenu.tsx
+// из массивов EQUIPMENT_DATA и SERVICES_DATA (data/equipment.ts, data/services.ts).
 export const NAV_LINKS = [
   { label: 'Главная', href: '/' },
-  {
-    label: 'Техника',
-    href: '#',
-    children: [
-      { label: 'Мини-экскаватор Volvo EC25', href: '/equipment/volvo-ec25/' },
-      { label: 'Мини-погрузчик CAT 226B', href: '/equipment/cat-226b/' },
-    ],
-  },
-  {
-    label: 'Услуги',
-    href: '#',
-    children: [
-      { label: 'Вывоз мусора', href: '/services/waste-removal/' },
-      { label: 'Снос и демонтаж', href: '/services/demolition/' },
-      { label: 'Доставка техники', href: '/services/delivery/' },
-    ],
-  },
+  { label: 'Техника', href: '#', hasDropdown: 'equipment' as const },
+  { label: 'Услуги', href: '#', hasDropdown: 'services' as const },
   { label: 'Блог', href: '/blog/' },
   { label: 'Контакты', href: '/contacts/' },
 ] as const;
