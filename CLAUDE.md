@@ -207,7 +207,7 @@ cd workers/telegram-bot && wrangler deploy
 
 **`workers/telegram-bot/`:** `index.ts` — CORS preflight, Turnstile verify, KV rate limit (3 req/hour/IP), форматированное Telegram сообщение с inline-кнопками; `wrangler.toml`, `package.json`, `tsconfig.json`
 
-**Deploy & public:** `.github/workflows/deploy.yml` (peaceiris/actions-gh-pages), `public/_headers` (CSP, HSTS, X-Frame-Options), `public/robots.txt`, `public/site.webmanifest`, `README.md`
+**Deploy & public:** `.github/workflows/deploy.yml` (официальный `actions/upload-pages-artifact` + `actions/deploy-pages`), `public/_headers` (CSP, HSTS, X-Frame-Options), `public/robots.txt`, `public/site.webmanifest`, `README.md`
 
 ### Ключевые решения Phase 1
 - **FAQ_ITEMS** вынесены в `lib/faq.ts`, а не экспортируются из `'use client'` компонента — иначе Next.js App Router падает с "Attempted to call map() from the server but map is on the client"
@@ -321,12 +321,24 @@ Sitemap включает все страницы включая 5 статей �
 
 ---
 
-## 🔜 Оставшиеся задачи
+## 🚀 Деплой — финальное состояние
 
-- **Реальные контакты** — заменить TODO: REPLACE маркеры в `lib/constants.ts` (телефон, Telegram, WhatsApp, email, адрес, координаты, домен)
-- **Реальный домен** — обновить `SITE.url` и `next-sitemap.config.js` `siteUrl`
-- **GLTF-модели** — восстановить R3F в `Equipment3DViewerInner.tsx` когда будут файлы `/public/models/volvo-ec25.glb` и `/public/models/cat-226b.glb`
-- **Hero-видео** — загрузить реальный `/public/video/hero.webm` + `hero.mp4` + `hero-poster.webp`
+**Сайт:** https://mini-tech.by (GitHub Pages, кастомный домен)  
+**Репозиторий:** https://github.com/youakey/Mini-Tech (ветка `main`)  
+**Cloudflare Worker:** `miniteh-brest-telegram.ryzoviosif.workers.dev` (POST /api/lead)  
+**CI/CD:** GitHub Actions → `actions/upload-pages-artifact` + `actions/deploy-pages` (Source: GitHub Actions)
+
+### Важные решения по деплою
+- `basePath` / `assetPrefix` **не нужны** при кастомном домене — убраны. Нужны только если сайт живёт в поддиректории (`username.github.io/repo-name/`).
+- `wrangler.jsonc` в корне удалён (был от OpenNext), `@opennextjs/cloudflare` удалён из `package.json`. Worker деплоится отдельно из `workers/telegram-bot/`.
+- Деплой Worker: `cd workers/telegram-bot && npx wrangler deploy --config wrangler.toml`
+- Rate limit: 3 заявки/час/IP. Сброс: `npx wrangler kv key delete "rl:<IP>" --binding RATE_LIMIT --preview false --config wrangler.toml`
+
+## 🔜 Оставшиеся задачи (контент и медиа)
+
+- **Контакты** — заменить TODO: REPLACE в `lib/constants.ts`: телефон, Telegram, WhatsApp, email, адрес, координаты
+- **GLTF-модели** — восстановить R3F в `Equipment3DViewerInner.tsx` когда будут `/public/models/volvo-ec25.glb` и `/public/models/cat-226b.glb`
+- **Hero-видео** — загрузить `/public/video/hero.webm` + `hero.mp4` + `hero-poster.webp`
 - **Фотографии техники** — изображения для EquipmentCard и equipment pages
 - **OG-изображение** — `/public/og-image.jpg` (1200×630)
 
@@ -349,7 +361,7 @@ Sitemap включает все страницы включая 5 статей �
 6. `POST api.telegram.org/bot{TOKEN}/sendMessage` — `parse_mode: 'HTML'`, все поля формы проходят через `escapeHtml()` (`&→&amp;`, `<→&lt;`, `>→&gt;`). Inline keyboard: только `callback_data: 'lead_accepted'` — `tel:` URL не поддерживается Telegram Bot API.
 7. Читаем тело ответа Telegram даже при `!res.ok` → возвращаем `data.description` клиенту вместо общей фразы.
 8. Секреты: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TURNSTILE_SECRET` — только через `wrangler secret put`.
-9. **Деплой**: `cd workers/telegram-bot && npx wrangler deploy --config wrangler.toml` — флаг `--config` обязателен, иначе подхватывается `wrangler.jsonc` из корня (OpenNext).
+9. **Деплой**: `cd workers/telegram-bot && npx wrangler deploy --config wrangler.toml` — флаг `--config` обязателен (корневой `wrangler.jsonc` удалён вместе с OpenNext, но привычка важна).
 
 **Антиспам:** honey-pot `website` + Turnstile + KV rate limit.
 
