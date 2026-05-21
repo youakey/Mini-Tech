@@ -107,14 +107,8 @@ export default async function EquipmentPage({ params }: Props) {
                     </div>
                   </div>
                   <div className="bg-surface border border-border rounded-xl px-5 py-3">
-                    <div className="text-text-muted text-xs mb-1">Мин. смена</div>
-                    <div className="font-mono font-bold text-text text-xl">
-                      {equipment.minBooking}
-                    </div>
-                  </div>
-                  <div className="bg-surface border border-border rounded-xl px-5 py-3">
-                    <div className="text-text-muted text-xs mb-1">Доставка</div>
-                    <div className="font-mono font-bold text-text text-sm">как час работы</div>
+                    <div className="text-text-muted text-xs mb-1">Доставка на объект</div>
+                    <div className="font-mono font-bold text-text text-xl">по тарифу</div>
                   </div>
                 </div>
 
