@@ -39,6 +39,12 @@ export interface Equipment {
   priceDisplay: string;
   priceNote: string;
   minBooking: string;
+  attachments?: {
+    name: string;
+    priceFrom: number;
+    priceNote: string;
+    description: string;
+  }[];
   /** Картинки: src — путь в /public, alt — SEO-alt */
   images: { src: string; alt: string }[];
   /** Путь к GLTF-модели в /public (опционально) */
@@ -72,7 +78,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
       { label: 'Максимальная глубина копания', value: '2 840 мм' },
       { label: 'Вместимость ковша', value: '0,06–0,09 м³' },
       { label: 'Габаритные размеры (Д×Ш×В)', value: '3 860 × 1 530 × 2 450 мм' },
-      { label: 'Аренда от', value: 'от 50 BYN/час' },
+      { label: 'Аренда от', value: 'от 85 BYN/час' },
       { label: 'Минимальная смена', value: '4 часа' },
     ],
     cardSpecs: [
@@ -88,9 +94,18 @@ export const EQUIPMENT_DATA: Equipment[] = [
       'Погрузка грунта и сыпучих материалов',
       'Работы в стеснённых условиях: у заборов, стен, деревьев',
     ],
-    priceDisplay: 'от 50 BYN/час',
-    priceNote: 'минимальный заказ 4 часа',
+    priceDisplay: 'от 85 BYN/час',
+    priceNote: 'BYN/час',
     minBooking: '4 часа',
+    attachments: [
+      {
+        name: 'Гидромолот',
+        priceFrom: 120,
+        priceNote: 'BYN/час',
+        description:
+          'Опционально: можно заказать технику с гидромолотом для разрушения бетона, кирпича, асфальта и скальных пород, либо без него — только с ковшом.',
+      },
+    ],
     images: [
       { src: '/images/equipment/volvo-ec25/thumb.webp', alt: 'Мини-экскаватор Volvo EC25 в работе в Бресте — рытьё котлована' },
     ],
@@ -100,9 +115,9 @@ export const EQUIPMENT_DATA: Equipment[] = [
     seo: {
       title: 'Аренда мини-экскаватора Volvo EC25 в Бресте | МиниТех Брест',
       metaDescription:
-        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте и Брестской области. Рытьё котлованов, траншей, планировка участка. Цена от 50 BYN/час. Выезд в день обращения.',
+        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте и Брестской области. Рытьё котлованов, траншей, планировка участка. Цена от 85 BYN/час. Выезд в день обращения.',
       ogDescription:
-        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте. Цена от 50 BYN/час, минимальная смена 4 часа.',
+        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте. Цена от 85 BYN/час, минимальная смена 4 часа.',
       capabilitiesTitle: 'Что умеет экскаватор',
       capabilitiesSubtitle: 'Аренда мини-экскаватора Volvo EC25 в Бресте и Брестской области',
       seoSections: [
@@ -137,7 +152,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
       { label: 'Грузоподъёмность', value: '567 кг' },
       { label: 'Опрокидывающая нагрузка', value: '1 134 кг' },
       { label: 'Габаритные размеры (Д×Ш×В)', value: '3 730 × 1 520 × 1 990 мм' },
-      { label: 'Аренда от', value: 'от 45 BYN/час' },
+      { label: 'Аренда от', value: 'от 95 BYN/час' },
       { label: 'Минимальная смена', value: '4 часа' },
     ],
     cardSpecs: [
@@ -153,8 +168,8 @@ export const EQUIPMENT_DATA: Equipment[] = [
       'Снос лёгких строений и вывоз обломков',
       'Уборка и перемещение снега в зимний период',
     ],
-    priceDisplay: 'от 45 BYN/час',
-    priceNote: 'минимальный заказ 4 часа',
+    priceDisplay: 'от 95 BYN/час',
+    priceNote: 'BYN/час',
     minBooking: '4 часа',
     images: [
       { src: '/images/equipment/cat-226b/thumb.webp', alt: 'Мини-погрузчик CAT 226B с ковшом — аренда в Бресте' },
@@ -165,9 +180,9 @@ export const EQUIPMENT_DATA: Equipment[] = [
     seo: {
       title: 'Аренда мини-погрузчика CAT 226B в Бресте | МиниТех Брест',
       metaDescription:
-        'Аренда мини-погрузчика CAT 226B с оператором в Бресте и Брестской области. Погрузка грунта и мусора, планировка площадок, навесное оборудование. Цена от 45 BYN/час.',
+        'Аренда мини-погрузчика CAT 226B с оператором в Бресте и Брестской области. Погрузка грунта и мусора, планировка площадок, навесное оборудование. Цена от 95 BYN/час.',
       ogDescription:
-        'Аренда мини-погрузчика CAT 226B с оператором в Бресте. Цена от 45 BYN/час, минимальная смена 4 часа.',
+        'Аренда мини-погрузчика CAT 226B с оператором в Бресте. Цена от 95 BYN/час, минимальная смена 4 часа.',
       capabilitiesTitle: 'Что умеет погрузчик',
       capabilitiesSubtitle: 'Аренда мини-погрузчика CAT 226B в Бресте и Брестской области',
       seoSections: [

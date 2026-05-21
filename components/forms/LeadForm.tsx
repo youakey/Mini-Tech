@@ -17,12 +17,13 @@ import Link from 'next/link';
 interface LeadFormProps {
   source?: string;
   className?: string;
+  showHammerOption?: boolean;
 }
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
 // Основная форма заявки с маской телефона, Turnstile, honey-pot и отправкой в Telegram
-export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
+export function LeadForm({ source = 'main', className = '', showHammerOption = false }: LeadFormProps) {
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,7 +36,7 @@ export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(LeadFormSchema),
-    defaultValues: { name: '', phone: '', message: '', consent: undefined, website: '' },
+    defaultValues: { name: '', phone: '', message: '', consent: undefined, website: '', withHammer: false },
   });
 
   const onSubmit = async (data: LeadFormData) => {
@@ -51,6 +52,7 @@ export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
       message: data.message,
       source,
       turnstileToken: data.turnstileToken,
+      withHammer: data.withHammer,
     });
 
     if (result.ok) {
@@ -149,6 +151,24 @@ export function LeadForm({ source = 'main', className = '' }: LeadFormProps) {
         error={errors.message?.message}
         {...register('message')}
       />
+
+      {/* Опция гидромолота — только для экскаватора */}
+      {showHammerOption && (
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            className="mt-0.5 w-4 h-4 rounded border-border bg-surface-2 accent-accent cursor-pointer shrink-0"
+            {...register('withHammer')}
+          />
+          <span className="text-sm text-text-muted leading-relaxed group-hover:text-text transition-colors">
+            Нужен гидромолот{' '}
+            <span className="text-accent font-mono font-medium">(+120 BYN/час)</span>
+            <span className="block text-xs mt-0.5 text-text-muted/70">
+              Разрушение бетона, кирпича, асфальта и скальных пород
+            </span>
+          </span>
+        </label>
+      )}
 
       {/* Согласие на обработку персональных данных */}
       <div className="space-y-1">

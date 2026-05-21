@@ -10,10 +10,8 @@ import { FormSuccess } from './FormSuccess';
 import {
   WasteRemovalFormSchema,
   DemolitionFormSchema,
-  DeliveryFormSchema,
   WASTE_TYPES,
   OBJECT_TYPES,
-  EQUIPMENT_OPTIONS,
   type ServiceType,
 } from '@/lib/validation';
 import { submitLead } from '@/lib/telegram';
@@ -23,7 +21,6 @@ import Link from 'next/link';
 const SERVICE_LABELS: Record<ServiceType, string> = {
   waste: 'Вывоз мусора',
   demolition: 'Демонтаж',
-  delivery: 'Доставка техники',
 };
 
 interface ServiceFormProps {
@@ -164,37 +161,6 @@ function DemolitionForm({ onSubmitData }: { onSubmitData: (data: FieldValues) =>
   );
 }
 
-// Форма для "Доставка техники"
-function DeliveryForm({ onSubmitData }: { onSubmitData: (data: FieldValues) => void }) {
-  const { register, handleSubmit, control, formState: { errors } } = useForm<FieldValues>({
-    resolver: zodResolver(DeliveryFormSchema),
-    defaultValues: { name: '', phone: '', message: '', addressFrom: '', addressTo: '', equipment: '', consent: false, website: '' },
-  });
-
-  return (
-    <form onSubmit={handleSubmit(onSubmitData)} className="space-y-4" noValidate>
-      <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute opacity-0 h-0 w-0 pointer-events-none" {...register('website')} />
-      <FormField label="Ваше имя" type="text" placeholder="Иван Петров" autoComplete="name" required error={errors.name?.message as string} {...register('name')} />
-      <PhoneField control={control} error={errors.phone?.message as string} fieldId="delivery-phone" />
-      <FormField label="Откуда забрать технику" type="text" placeholder="Адрес или район" required error={errors.addressFrom?.message as string} {...register('addressFrom')} />
-      <FormField label="Куда доставить" type="text" placeholder="Адрес объекта" required error={errors.addressTo?.message as string} {...register('addressTo')} />
-      <div className="space-y-1.5">
-        <label className="block text-sm font-medium text-text-muted">
-          Какая техника <span className="text-error" aria-hidden="true">*</span>
-        </label>
-        <select className="w-full bg-surface-2 border border-border rounded-xl px-4 py-3 text-text focus:outline-none focus:ring-2 focus:ring-accent" {...register('equipment')}>
-          <option value="">Выберите технику</option>
-          {EQUIPMENT_OPTIONS.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
-        {errors.equipment && <p role="alert" className="text-error text-sm">{errors.equipment.message as string}</p>}
-      </div>
-      <FormField label="Дополнительно" multiline rows={2} placeholder="Любые уточнения..." error={errors.message?.message as string} {...register('message')} />
-      <ConsentField register={register} error={errors.consent?.message as string} />
-      <Button type="submit" variant="primary" size="lg" className="w-full">Отправить заявку</Button>
-    </form>
-  );
-}
-
 // Главный компонент — выбирает нужную форму и управляет состоянием отправки
 export function ServiceForm({ serviceType, onSuccess }: ServiceFormProps) {
   const [formState, setFormState] = useState<FormState>('idle');
@@ -236,7 +202,6 @@ export function ServiceForm({ serviceType, onSuccess }: ServiceFormProps) {
   const formMap: Record<ServiceType, React.ReactNode> = {
     waste: <WasteForm onSubmitData={handleData} />,
     demolition: <DemolitionForm onSubmitData={handleData} />,
-    delivery: <DeliveryForm onSubmitData={handleData} />,
   };
 
   return (

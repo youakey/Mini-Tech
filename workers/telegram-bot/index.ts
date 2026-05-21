@@ -1,13 +1,14 @@
 /**
  * Cloudflare Worker — принимает POST /api/lead, верифицирует Turnstile,
  * применяет rate limiting через KV и отправляет уведомление в Telegram.
- * Секреты (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TURNSTILE_SECRET)
+ * Секреты (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_IDS, TURNSTILE_SECRET)
  * задаются через `wrangler secret put`, не хранятся в коде.
+ * TELEGRAM_CHAT_IDS — строка с chat_id через запятую (владелец,клиент).
  */
 
 interface Env {
   TELEGRAM_BOT_TOKEN: string;
-  TELEGRAM_CHAT_ID: string;
+  TELEGRAM_CHAT_IDS: string;
   TURNSTILE_SECRET: string;
   RATE_LIMIT: KVNamespace;
 }
@@ -18,6 +19,7 @@ interface LeadPayload {
   message?: string;
   source?: string;
   turnstileToken?: string;
+  withHammer?: boolean;
 }
 
 const CORS_HEADERS = {
@@ -83,6 +85,7 @@ function buildTelegramMessage(payload: LeadPayload, ip: string): string {
     `👤 Имя: ${escapeHtml(payload.name)}`,
     `📞 Телефон: ${escapeHtml(payload.phone)}`,
     payload.message ? `💬 Сообщение: ${escapeHtml(payload.message)}` : '',
+    payload.withHammer ? '🔨 С гидромолотом' : '',
     '',
     `🌐 IP: ${escapeHtml(ip)}`,
     `🕐 Время: ${now} (Минск)`,
@@ -179,10 +182,10 @@ export default {
     // Диагностика наличия секретов (без раскрытия значений)
     console.log('[worker] TELEGRAM_BOT_TOKEN present:', !!env.TELEGRAM_BOT_TOKEN,
       '| length:', env.TELEGRAM_BOT_TOKEN?.length ?? 0);
-    console.log('[worker] TELEGRAM_CHAT_ID present:', !!env.TELEGRAM_CHAT_ID,
-      '| value:', env.TELEGRAM_CHAT_ID);
+    console.log('[worker] TELEGRAM_CHAT_IDS present:', !!env.TELEGRAM_CHAT_IDS,
+      '| value:', env.TELEGRAM_CHAT_IDS);
 
-    if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) {
+    if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_IDS) {
       console.error('[worker] Missing secrets — check wrangler secret put');
       return jsonResponse({ ok: false, error: 'Worker configuration error' }, 500);
     }
@@ -216,15 +219,20 @@ export default {
     }
 
     const message = buildTelegramMessage(payload, ip);
-    const result = await sendTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, message);
 
-    if (!result.ok) {
-      // Возвращаем реальное описание ошибки от Telegram клиенту (и в логи)
-      console.error('[worker] Telegram send failed:', result.description);
-      return jsonResponse(
-        { ok: false, error: `Ошибка отправки: ${result.description}` },
-        502
-      );
+    const chatIds = env.TELEGRAM_CHAT_IDS.split(',').map((s) => s.trim()).filter(Boolean);
+    let anySuccess = false;
+    for (const chatId of chatIds) {
+      const result = await sendTelegram(env.TELEGRAM_BOT_TOKEN, chatId, message);
+      if (result.ok) {
+        anySuccess = true;
+      } else {
+        console.error(`[worker] Failed for chatId ${chatId}:`, result.description);
+      }
+    }
+
+    if (!anySuccess) {
+      return jsonResponse({ ok: false, error: 'Ошибка отправки уведомления' }, 502);
     }
 
     console.log('[worker] Lead sent successfully for IP:', ip);

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Truck } from 'lucide-react';
 import { Equipment3DViewer } from '@/components/equipment/Equipment3DViewer';
 import { SpecsTable } from '@/components/equipment/SpecsTable';
 import { LeadForm } from '@/components/forms/LeadForm';
@@ -112,6 +112,10 @@ export default async function EquipmentPage({ params }: Props) {
                       {equipment.minBooking}
                     </div>
                   </div>
+                  <div className="bg-surface border border-border rounded-xl px-5 py-3">
+                    <div className="text-text-muted text-xs mb-1">Доставка</div>
+                    <div className="font-mono font-bold text-text text-sm">как час работы</div>
+                  </div>
                 </div>
 
                 <a
@@ -145,6 +149,37 @@ export default async function EquipmentPage({ params }: Props) {
             />
           </div>
         </section>
+
+        {/* Дополнительное оборудование */}
+        {equipment.attachments && equipment.attachments.length > 0 && (
+          <section className="section bg-bg" aria-labelledby="attachments-heading">
+            <div className="container-site max-w-3xl">
+              <div className="text-center mb-8">
+                <div className="accent-line mx-auto mb-4" />
+                <h2 id="attachments-heading" className="section-title">Дополнительное оборудование</h2>
+              </div>
+              <ul className="space-y-4">
+                {equipment.attachments.map((att) => (
+                  <li key={att.name} className="bg-surface border border-border rounded-2xl p-6">
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="font-heading font-bold text-text text-xl">{att.name}</h3>
+                          <span className="text-xs font-medium bg-accent/10 text-accent border border-accent/20 rounded-full px-2 py-0.5">По желанию</span>
+                        </div>
+                        <p className="text-text-muted text-sm leading-relaxed">{att.description}</p>
+                      </div>
+                      <div className="bg-bg border border-border rounded-xl px-4 py-2 shrink-0">
+                        <div className="text-text-muted text-xs mb-0.5">Опция</div>
+                        <div className="font-mono font-bold text-accent">+{att.priceFrom} {att.priceNote}</div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         {/* Возможности */}
         <section className="section bg-bg" aria-labelledby="capabilities-heading">
@@ -193,7 +228,26 @@ export default async function EquipmentPage({ params }: Props) {
               <h2 id="form-heading" className="section-title">Оставить заявку</h2>
               <p className="section-subtitle">Перезвоним за 15 минут, уточним детали</p>
             </div>
-            <LeadForm />
+            <LeadForm
+              source={slug}
+              showHammerOption={equipment.attachments?.some((a) => a.name === 'Гидромолот')}
+            />
+          </div>
+        </section>
+
+        {/* Доставка техники */}
+        <section className="section bg-bg" aria-label="Доставка техники на объект">
+          <div className="container-site max-w-xl">
+            <div className="bg-surface border border-border rounded-2xl p-6 flex gap-4 items-start">
+              <Truck size={22} className="text-accent shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <p className="font-semibold text-text mb-1">Доставка техники на объект</p>
+                <p className="text-text-muted text-sm leading-relaxed">
+                  Доставка тарифицируется как обычный час работы техники.
+                  Перезвоните или оставьте заявку — рассчитаем точную стоимость с учётом локации.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>

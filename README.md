@@ -151,10 +151,17 @@ npm run dev
 2. Отправьте `/newbot`, следуйте инструкциям
 3. Получите токен вида `123456789:ABCdef...` — сохраните
 
-### Шаг 2 — Получите chat_id
-1. Напишите любое сообщение вашему новому боту
+### Шаг 2 — Получите chat_id (один или несколько)
+
+Worker поддерживает рассылку в несколько чатов через `TELEGRAM_CHAT_IDS` (IDs через запятую).
+
+1. Напишите `/start` вашему новому боту
 2. Откройте в браузере: `https://api.telegram.org/bot<TOKEN>/getUpdates`
 3. Найдите поле `"chat": {"id": ...}` — это ваш chat_id
+4. Если хотите отправлять уведомления и владельцу, и клиенту:
+   - Клиент находит свой ID через `@userinfobot` в Telegram
+   - Клиент пишет `/start` вашему боту
+   - Итоговая строка: `ВАШ_ID,ID_КЛИЕНТА`
 
 ### Шаг 3 — Задеплойте Cloudflare Worker
 
@@ -169,12 +176,13 @@ npx wrangler kv:namespace create RATE_LIMIT
 # Скопируйте id и preview_id в wrangler.toml
 
 # Задайте секреты (вводятся интерактивно, не сохраняются в файлах)
-npx wrangler secret put TELEGRAM_BOT_TOKEN
-npx wrangler secret put TELEGRAM_CHAT_ID
-npx wrangler secret put TURNSTILE_SECRET  # если используете Turnstile
+npx wrangler secret put TELEGRAM_BOT_TOKEN --config wrangler.toml
+npx wrangler secret put TELEGRAM_CHAT_IDS --config wrangler.toml
+# Введите: ВАШ_CHAT_ID,CHAT_ID_КЛИЕНТА  (или только один ID)
+npx wrangler secret put TURNSTILE_SECRET --config wrangler.toml  # если используете Turnstile
 
 # Задеплойте
-npx wrangler deploy
+npx wrangler deploy --config wrangler.toml
 ```
 
 ### Шаг 4 — Настройте NEXT_PUBLIC_WORKER_URL

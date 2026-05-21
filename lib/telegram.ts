@@ -7,6 +7,7 @@ export interface LeadPayload {
   message?: string;
   source: string;
   turnstileToken?: string;
+  withHammer?: boolean;
 }
 
 // Отправляет заявку на Cloudflare Worker, который пересылает её в Telegram

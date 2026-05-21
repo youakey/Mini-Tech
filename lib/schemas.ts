@@ -56,16 +56,10 @@ export function localBusinessSchema() {
       },
     ],
     openingHours: WORKING_HOURS.schemaHours,
-    areaServed: {
-      '@type': 'GeoCircle',
-      geoMidpoint: {
-        '@type': 'GeoCoordinates',
-        latitude: CONTACTS.lat,
-        longitude: CONTACTS.lng,
-      },
-      geoRadius: '100000',
-    },
-    priceRange: '$$',
+    areaServed: [
+      'Брест', 'Берёза', 'Барановичи', 'Пинск', 'Кобрин', 'Пружаны', 'Брестская область',
+    ].map((name) => ({ '@type': 'City', name })),
+    priceRange: 'от 85 BYN/час',
     currenciesAccepted: 'BYN',
     paymentAccepted: 'Cash, Bank Transfer',
   };

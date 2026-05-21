@@ -24,6 +24,8 @@ const baseLeadFields = {
   website: z.string().max(0, 'Это поле должно быть пустым').optional(),
   // Cloudflare Turnstile токен
   turnstileToken: z.string().optional(),
+  // Опция гидромолота (только для экскаватора)
+  withHammer: z.boolean().optional(),
 };
 
 // Схема основной формы заявки (главная, контакты, страницы техники)
@@ -56,25 +58,8 @@ export const DemolitionFormSchema = z.object({
 });
 export type DemolitionFormData = z.infer<typeof DemolitionFormSchema>;
 
-// Схема формы для услуги "Доставка техники"
-export const DeliveryFormSchema = z.object({
-  ...baseLeadFields,
-  addressFrom: z
-    .string()
-    .min(5, 'Укажите адрес отправки')
-    .max(200, 'Слишком длинный адрес'),
-  addressTo: z
-    .string()
-    .min(5, 'Укажите адрес доставки')
-    .max(200, 'Слишком длинный адрес'),
-  equipment: z.enum(['excavator', 'loader', 'both'], {
-    errorMap: () => ({ message: 'Выберите технику' }),
-  }),
-});
-export type DeliveryFormData = z.infer<typeof DeliveryFormSchema>;
-
 // Объединённый тип для сервисных форм
-export type ServiceType = 'waste' | 'demolition' | 'delivery';
+export type ServiceType = 'waste' | 'demolition';
 
 // Схема ответа Cloudflare Worker
 export const WorkerResponseSchema = z.object({
@@ -100,9 +85,3 @@ export const OBJECT_TYPES = [
   { value: 'other', label: 'Другое' },
 ] as const;
 
-// Типы техники для доставки
-export const EQUIPMENT_OPTIONS = [
-  { value: 'excavator', label: 'Мини-экскаватор Volvo EC25' },
-  { value: 'loader', label: 'Мини-погрузчик CAT 226B' },
-  { value: 'both', label: 'Оба агрегата' },
-] as const;
