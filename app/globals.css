@@ -19,13 +19,17 @@
 /* Базовые стили */
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth убран — на iOS Safari конфликтует с
+       нативным momentum-скроллом при смене направления и вызывает дрожание.
+       Плавный скролл для кнопок задаётся через scrollIntoView({ behavior: 'smooth' }). */
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-bg text-text font-sans antialiased;
     min-height: 100dvh;
+    /* Отключает rubber-band bounce на iOS — дополнительный источник дрожания */
+    overscroll-behavior-y: none;
   }
 
   /* Скролл-бар в стиле сайта */

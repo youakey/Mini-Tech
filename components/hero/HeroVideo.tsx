@@ -57,6 +57,7 @@ export function HeroVideo({ posterSrc, webmSrc, mp4Src }: HeroVideoProps) {
           preload="metadata"
           poster={posterError ? undefined : posterSrc}
           aria-hidden="true"
+          style={{ willChange: 'transform', transform: 'translateZ(0)' }}
         >
           <source src={webmSrc} type="video/webm" />
           <source src={mp4Src} type="video/mp4" />

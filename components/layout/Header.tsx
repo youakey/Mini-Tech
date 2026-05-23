@@ -28,10 +28,16 @@ export function Header() {
     <>
       <header
         className={[
-          'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
+          // backdrop-blur-md присутствует ВСЕГДА — создаёт GPU-слой один раз при монтировании.
+          // Без этого браузер создаёт/уничтожает compositing layer при каждом пересечении
+          // порога 40px, что вызывает visual jitter на iOS Safari при смене направления скролла.
+          // transition-[background-color,border-color,box-shadow] вместо transition-all —
+          // анимируем только нужные свойства, не затрагивая layout-affecting props.
+          'fixed top-0 left-0 right-0 z-40 backdrop-blur-md',
+          'transition-[background-color,border-color,box-shadow] duration-300',
           isScrolled
-            ? 'bg-bg/90 backdrop-blur-md border-b border-border shadow-lg'
-            : 'bg-transparent',
+            ? 'bg-bg/90 border-b border-border shadow-lg'
+            : 'bg-transparent border-b border-transparent',
         ].join(' ')}
       >
         <div className="container-site">

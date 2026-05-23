@@ -103,6 +103,7 @@ export function HeroOverlay() {
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-1 text-text-muted/60"
+          style={{ willChange: 'transform' }}
         >
           <span className="text-xs uppercase tracking-widest">Прокрутите</span>
           <ChevronDown size={20} />
