@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, Phone } from 'lucide-react';
 import { Nav } from './Nav';
@@ -19,6 +19,10 @@ export function Header() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Стабильная ссылка — не пересоздаётся при скролле, иначе useEffect в MobileMenu
+  // видит изменение deps и сразу закрывает меню после открытия.
+  const handleCloseMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
   return (
     <>
@@ -96,7 +100,7 @@ export function Header() {
       {/* Мобильное меню */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
+        onClose={handleCloseMenu}
       />
 
       {/* Плавающая кнопка звонка на мобильных */}

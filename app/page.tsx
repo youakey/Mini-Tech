@@ -38,7 +38,7 @@ export default function HomePage() {
       {/* Hero — полный экран с фоновым видео.
           -mt-16/-mt-20 компенсирует pt main, чтобы видео уходило под прозрачный header */}
       <section
-        className="relative -mt-16 sm:-mt-20 h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden"
+        className="relative -mt-16 sm:-mt-20 h-[100svh] min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden"
         aria-label="Главный баннер"
       >
         <HeroVideo
