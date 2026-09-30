@@ -116,19 +116,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       </head>
       <body>
-        {/* Код Google Рекламы перемещен в начало body и ссылка полностью восстановлена */}
+        {/* 
+          Код Google Рекламы (gtag.js). 
+          Используем next/script с правильной ссылкой и dangerouslySetInnerHTML.
+        */}
         <Script
-          src="https://googletagmanager.com"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18480325741"
           strategy="afterInteractive"
         />
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18480325741');
-          `}
-        </Script>
+        <Script
+          id="google-ads-tag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18480325741');
+            `,
+          }}
+        />
 
         <a
           href="#main-content"
