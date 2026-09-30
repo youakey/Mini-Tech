@@ -12,7 +12,6 @@ import { organizationSchema } from '@/lib/schemas';
 import { SEO, SITE, CONTACTS, ANALYTICS } from '@/lib/constants';
 import './globals.css';
 
-// Шрифты через next/font — загружаются локально, не блокируют рендер
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-inter',
@@ -56,8 +55,8 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-      google: 'google070df050800da1e0.html',
-    },
+    google: 'google070df050800da1e0',
+  },
   openGraph: {
     type: 'website',
     locale: SITE.locale,
@@ -96,18 +95,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <Script
-          src="https://googletagmanager.com"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18480325741');
-          `}
-        </Script>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -120,17 +107,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="geo.placename" content="Брест" />
         <meta name="geo.position" content={`${CONTACTS.lat};${CONTACTS.lng}`} />
         <meta name="ICBM" content={`${CONTACTS.lat}, ${CONTACTS.lng}`} />
-        {/* Plausible Analytics — без cookie, без баннера */}
         {ANALYTICS.plausibleDomain && (
           <script
             defer
             data-domain={ANALYTICS.plausibleDomain}
-            src="https://plausible.io/js/script.js"
+            src="https://plausible.io"
           />
         )}
       </head>
       <body>
-        {/* Skip-link для клавиатурной навигации и SEO */}
+        {/* Код Google Рекламы перемещен в начало body и ссылка полностью восстановлена */}
+        <Script
+          src="https://googletagmanager.com"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18480325741');
+          `}
+        </Script>
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50
@@ -142,7 +141,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Header />
-          {/* pt-16/pt-20 компенсирует высоту fixed header (h-16 mobile / h-20 sm+) */}
           <main id="main-content" className="pt-16 sm:pt-20">{children}</main>
           <Footer />
           <CallbackButton />
@@ -150,7 +148,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CookieNotice />
         </ThemeProvider>
 
-        {/* JSON-LD Organization на всех страницах */}
         <JsonLd data={organizationSchema()} />
       </body>
     </html>
