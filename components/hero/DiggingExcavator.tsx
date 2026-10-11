@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from 'react';
 import { motion, useMotionValueEvent, useSpring, useTransform, type MotionValue } from 'framer-motion';
+import { BucketSpill } from './BucketSpill';
 
 interface DiggingExcavatorProps {
   progress: MotionValue<number>;
@@ -68,6 +69,7 @@ export function DiggingExcavator({ progress, reducedMotion }: DiggingExcavatorPr
               {!reducedMotion && <motion.g style={{ opacity: loadOpacity }} clipPath={`url(#${id}-soil)`}>
                 <image href="/images/hero/bucket-earth.webp" x="706" y="548" width="165" height="60" />
               </motion.g>}
+              {!reducedMotion && <BucketSpill progress={smoothProgress} x={853} y={604} />}
             </g>
             <g clipPath={`url(#${id}-wrist)`}>{photo}</g>
           </g>

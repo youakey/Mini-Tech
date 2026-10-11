@@ -7,7 +7,20 @@
 - `public/images/hero/excavator-cutout.webp` — прозрачный фотографический слой машины.
 - `public/images/hero/bucket-earth.webp` — земля для наполненного ковша.
 
-На компьютере машина въезжает справа по горизонтали без изменения размера. Гусеницы сохранены в исходном фотографическом виде. Сдвиг текстуры и вращение фотослоёв катков отключены из-за смазывания; для реалистичного движения требуется видео или заранее отрендеренная последовательность. Стрела, рукоять и ковш разделены SVG-масками и поворачиваются вокруг шарниров; при зачерпывании появляется земля. Это анимация фотослоёв, не видео и не 3D-модель. На телефоне используется цельное отдельное фото с очень плавным приближением. При prefers-reduced-motion машина и фон неподвижны, длинная сцена отключается.
+На компьютере и телефоне машина въезжает справа по горизонтали без изменения размера, затем зачерпывает землю. Гусеницы сохранены в исходном фотографическом виде. Сдвиг текстуры и вращение фотослоёв катков отключены из-за смазывания; для реалистичного движения требуется видео или заранее отрендеренная последовательность. Стрела, рукоять и ковш разделены SVG-масками и поворачиваются вокруг шарниров; при зачерпывании появляется земля. Из наполненного ковша циклически осыпаются небольшие комки; цикл приостанавливается вне экрана и до наполнения. Это анимация фотослоёв, не видео и не 3D-модель. Телефон получает только мобильные изображения. При prefers-reduced-motion машина и фон неподвижны, длинная сцена отключается; на телефоне используется цельное фото.
+
+## Мобильные слои для въезда и зачерпывания
+
+- `public/images/hero/mobile-background.webp` — 750 × 1333, сжатый чистый фон.
+- `public/images/hero/mobile-excavator.webp` — 750 × 1333, прозрачный слой всей машины; SVG-маски разделяют части стрелы и ковша.
+
+Промпт чистого фона:
+
+Use case: precise-object-edit. Input image is the edit target. Remove ONLY the yellow excavator, its entire boom, bucket, tracks, cabin and blade from the lower right part of this portrait photograph. Naturally reconstruct the earth, excavation, houses and trees behind it. Preserve EXACT portrait canvas aspect ratio, composition, camera, sunset lighting, sky, buildings and all terrain elsewhere. This is the clean background plate for a mobile website photographic animation. No other machines, people, text or UI. Do not crop, reframe, resize or change the sky.
+
+Промпт прозрачного слоя:
+
+Use case: background-extraction. Input image is the edit target. Keep ONLY the complete yellow compact excavator in the lower right part, with cabin, all tracks, blade, boom, stick, bucket and hydraulic rods unchanged. Remove ALL background and ground to true transparency. CRITICAL preserve the EXACT full portrait canvas, original aspect ratio, camera perspective and exact image coordinates of every part of the machine. Do not centre the cutout, enlarge, reposition, alter geometry or crop the transparent sky area. This is an animation layer intended to align exactly with the original portrait photograph. Keep warm sunset lighting and authentic textures, no text.
 
 ## Цельная мобильная композиция после проверки
 

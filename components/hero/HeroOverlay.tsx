@@ -13,7 +13,7 @@ export function HeroOverlay() {
   };
 
   return (
-    <div className="relative z-10 container-site flex flex-col items-center lg:items-start justify-center h-full text-center lg:text-left pt-16 pb-28 sm:py-24">
+    <div className="hero-content relative z-10 container-site flex flex-col items-center lg:items-start justify-center h-full text-center lg:text-left pt-16 pb-28 sm:py-24">
       <motion.div
         initial={false}
         animate="visible"
@@ -30,10 +30,10 @@ export function HeroOverlay() {
             visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
           }}
           className="inline-flex items-center gap-2 bg-accent/20 border border-accent/40
-                     rounded-full px-4 py-1.5 mb-6"
+                     rounded-full px-4 py-1.5 mb-4 sm:mb-6"
         >
-          <span className="w-2 h-2 bg-accent rounded-full animate-pulse" aria-hidden="true" />
-          <span className="text-accent text-sm font-medium">Работаем в Бресте и Брестской области</span>
+          <span className="w-2 h-2 bg-accent rounded-full" aria-hidden="true" />
+          <span className="hero-location text-accent text-xs sm:text-sm font-medium">Работаем в Бресте и Брестской области</span>
         </motion.div>
 
         {/* H1 */}
@@ -55,7 +55,7 @@ export function HeroOverlay() {
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
           }}
-          className="text-zinc-200 text-base sm:text-lg leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0"
+          className="text-zinc-200 text-sm sm:text-lg leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0"
         >
           Volvo EC 25, Messersi M-18BE и XCMG XE-35U с опытным оператором.
           Котлованы, траншеи, вывоз мусора, демонтаж. Выезд от 4 часов.
@@ -99,15 +99,12 @@ export function HeroOverlay() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         aria-hidden="true"
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        <div
           className="flex flex-col items-center gap-1 text-text-muted/60"
-          style={{ willChange: 'transform' }}
         >
           <span className="text-xs uppercase tracking-widest">Прокрутите</span>
           <ChevronDown size={20} />
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );
