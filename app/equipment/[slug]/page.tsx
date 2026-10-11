@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, Truck } from 'lucide-react';
-import { Equipment3DViewer } from '@/components/equipment/Equipment3DViewer';
+import { PhotoGallery } from '@/components/equipment/PhotoGallery';
 import { SpecsTable } from '@/components/equipment/SpecsTable';
 import { LeadForm } from '@/components/forms/LeadForm';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -44,7 +44,7 @@ export default async function EquipmentPage({ params }: Props) {
 
   const breadcrumbs = [
     { name: 'Главная', href: '/' },
-    { name: 'Техника', href: '/#equipment' },
+    { name: 'Техника', href: '/equipment/' },
     { name: equipment.name, href: `/equipment/${slug}/` },
   ];
 
@@ -91,7 +91,7 @@ export default async function EquipmentPage({ params }: Props) {
                 </p>
                 <h1
                   id="equipment-heading"
-                  className="font-heading font-extrabold text-4xl lg:text-5xl text-text leading-tight mb-4"
+                  className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-text leading-tight mb-4"
                 >
                   {equipment.name}
                 </h1>
@@ -101,7 +101,7 @@ export default async function EquipmentPage({ params }: Props) {
 
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="bg-surface border border-border rounded-xl px-5 py-3">
-                    <div className="text-text-muted text-xs mb-1">Аренда от</div>
+                    <div className="text-text-muted text-xs mb-1">Стоимость аренды</div>
                     <div className="font-mono font-bold text-accent text-xl">
                       {equipment.priceDisplay}
                     </div>
@@ -122,10 +122,7 @@ export default async function EquipmentPage({ params }: Props) {
                 </a>
               </div>
 
-              <Equipment3DViewer
-                modelPath={equipment.modelGlb}
-                className="lg:aspect-square"
-              />
+              <PhotoGallery images={equipment.images} priority />
             </div>
           </div>
         </section>
@@ -135,7 +132,7 @@ export default async function EquipmentPage({ params }: Props) {
           <div className="container-site max-w-3xl">
             <div className="text-center mb-10">
               <div className="accent-line mx-auto mb-4" />
-              <h2 id="specs-heading" className="section-title">Технические характеристики</h2>
+              <h2 id="specs-heading" className="section-title">Характеристики и условия аренды</h2>
             </div>
             <SpecsTable
               specs={equipment.specs}

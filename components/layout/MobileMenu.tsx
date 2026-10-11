@@ -35,6 +35,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     onClose();
   }, [pathname, onClose]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
   // Блокировать скролл при открытом меню
   useEffect(() => {
     if (isOpen) {
@@ -68,6 +77,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm bg-surface border-l border-border
                        flex flex-col lg:hidden overflow-y-auto"
+            id="mobile-menu"
             role="dialog"
             aria-modal="true"
             aria-label="Мобильное меню"
@@ -118,6 +128,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       ) : (
                         <Link
                           href={link.href}
+                          onClick={onClose}
                           className={[
                             'block px-3 py-3 rounded-xl text-lg font-medium transition-colors duration-150',
                             pathname === link.href

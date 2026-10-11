@@ -28,7 +28,7 @@ export function BackToTop() {
           transition={{ duration: 0.2 }}
           onClick={scrollToTop}
           aria-label="Прокрутить наверх"
-          className="fixed bottom-24 right-4 sm:bottom-8 sm:right-8 z-40
+          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 z-40
                      w-11 h-11 rounded-xl bg-surface border border-border
                      flex items-center justify-center
                      text-text-muted hover:text-accent hover:border-accent/40

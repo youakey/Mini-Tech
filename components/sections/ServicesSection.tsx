@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Hammer, Truck, ArrowRight } from 'lucide-react';
@@ -43,10 +45,10 @@ export function ServicesSection() {
   };
 
   return (
-    <section className="section bg-surface" aria-labelledby="services-heading">
+    <section id="services" className="section bg-surface" aria-labelledby="services-heading">
       <div className="container-site">
         <motion.div
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
@@ -62,20 +64,26 @@ export function ServicesSection() {
         </motion.div>
 
         <motion.div
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {featured.map((service) => (
-            <motion.button
+            <motion.article
               key={service.slug}
               variants={fadeUp}
-              onClick={() => openModal(service)}
-              className="group card card-hover text-left w-full cursor-pointer"
-              aria-label={`Оставить заявку: ${service.name}`}
+              className="group card card-hover text-left w-full flex flex-col min-w-0"
             >
+              <div className={`grid ${service.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 mb-5`}>
+                {service.images.map((photo) => (
+                  <div key={photo.src} className="relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-2">
+                    <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 767px) 100vw, 50vw" className="object-contain" />
+                  </div>
+                ))}
+              </div>
+              {service.illustrative && <p className="text-xs text-text-muted mb-3">Иллюстрация услуги</p>}
               {/* Иконка */}
               <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center
                               text-accent mb-5 group-hover:bg-accent group-hover:text-bg transition-all duration-300">
@@ -100,17 +108,22 @@ export function ServicesSection() {
                 ))}
               </ul>
 
+              <div className="flex flex-wrap gap-3 mb-5">
+                <Link href={`/services/${service.slug}/`} className="text-accent text-sm py-2 underline underline-offset-4">Подробнее об услуге</Link>
+              </div>
               {/* Цена + стрелка */}
               <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
                 <span className="text-accent font-mono font-semibold text-sm">
                   {service.priceDisplay}
                 </span>
+                <button type="button" onClick={() => openModal(service)} className="flex items-center gap-2 text-sm text-accent rounded-lg px-3 py-2 bg-accent/10" aria-label={`Оставить заявку: ${service.name}`}>Заказать
                 <ArrowRight
                   size={18}
                   className="text-text-muted group-hover:text-accent group-hover:translate-x-1 transition-all duration-200"
                 />
+                </button>
               </div>
-            </motion.button>
+            </motion.article>
           ))}
         </motion.div>
       </div>

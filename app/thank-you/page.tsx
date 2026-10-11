@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 const QUICK_LINKS = [
   { label: 'Мини-экскаватор Volvo EC25', href: '/equipment/volvo-ec25/' },
-  { label: 'Мини-погрузчик CAT 226B', href: '/equipment/cat-226b/' },
+  { label: 'Все мини-экскаваторы', href: '/equipment/' },
   { label: 'Вывоз строительного мусора', href: '/services/waste-removal/' },
   { label: 'Демонтаж построек', href: '/services/demolition/' },
-  { label: 'Доставка материалов', href: '/services/delivery/' },
+  { label: 'Уточнить доставку техники', href: '/contacts/' },
 ];
 
 /** Страница подтверждения после отправки формы */

@@ -25,6 +25,8 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  [id] { scroll-margin-top: 6rem; }
+
   body {
     @apply bg-bg text-text font-sans antialiased;
     min-height: 100dvh;
@@ -152,4 +154,25 @@
       rgba(10, 10, 10, 0.8) 100%
     );
   }
+}
+
+/* Фотографическая сцена: короткий цикл копания при прокрутке. */
+.hero-scroll-scene { height: 180svh; min-height: 1040px; }
+.hero-photo-shade {
+  background: linear-gradient(180deg, rgba(10,10,10,.65), rgba(10,10,10,.22) 65%, #0a0a0a),
+              linear-gradient(90deg, rgba(10,10,10,.76), rgba(10,10,10,.55) 43%, rgba(10,10,10,.08) 82%);
+}
+@media (max-width: 1023px) {
+  .hero-scroll-scene { height: 115svh; min-height: 740px; }
+  .hero-photo-frame { animation: hero-photo-drift 22s ease-in-out infinite alternate; }
+  .hero-photo-shade { background: linear-gradient(180deg, rgba(10,10,10,.75), rgba(10,10,10,.68) 55%, rgba(10,10,10,.16) 82%, #0a0a0a); }
+}
+@keyframes hero-photo-drift {
+  from { transform: scale(1.02); }
+  to { transform: scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-scene { height: 100svh; min-height: 640px; }
+  .hero-sticky-frame { position: relative; }
+  .hero-photo-frame { animation: none; }
 }

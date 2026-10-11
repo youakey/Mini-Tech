@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     description: SEO.defaultDescription,
     images: [
       {
-        url: '/images/og-image.webp',
+        url: '/images/equipment/xcmg-xe35u/og.webp',
         width: 1200,
         height: 630,
         alt: `${SITE.name} — аренда строительной техники в Бресте`,
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: SEO.defaultTitle,
     description: SEO.defaultDescription,
-    images: ['/images/og-image.webp'],
+    images: ['/images/equipment/xcmg-xe35u/og.webp'],
   },
   alternates: {
     canonical: SITE.url,
@@ -95,7 +95,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#F59E0B" />
@@ -148,7 +147,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Header />
-          <main id="main-content" className="pt-16 sm:pt-20">{children}</main>
+          <div id="main-content" className="pt-16 sm:pt-20">{children}</div>
           <Footer />
           <CallbackButton />
           <BackToTop />

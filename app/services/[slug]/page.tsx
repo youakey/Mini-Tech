@@ -1,3 +1,4 @@
+import { PhotoGallery } from '@/components/equipment/PhotoGallery';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -289,7 +290,7 @@ export default async function ServicePage({ params }: Props) {
               <div className="accent-line mx-auto mb-6" />
               <h1
                 id="service-heading"
-                className="font-heading font-extrabold text-4xl lg:text-5xl text-text leading-tight mb-6"
+                className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-text leading-tight mb-6"
               >
                 {hero.h1Main}
                 <span className="block text-accent">{hero.h1Accent}</span>
@@ -332,6 +333,10 @@ export default async function ServicePage({ params }: Props) {
                 </a>
               </div>
             </div>
+            <div className="max-w-3xl mx-auto">
+              <PhotoGallery images={service.images} priority />
+              {service.illustrative && <p className="text-xs text-text-muted mt-2">Иллюстрация услуги</p>}
+            </div>
           </div>
         </section>
 
@@ -373,7 +378,7 @@ export default async function ServicePage({ params }: Props) {
               <h2 id="service-form-heading" className="section-title">{service.formTitle}</h2>
               <p className="section-subtitle">{service.formSubtitle}</p>
             </div>
-            <LeadForm />
+            <LeadForm source={service.serviceType} />
           </div>
         </section>
       </main>

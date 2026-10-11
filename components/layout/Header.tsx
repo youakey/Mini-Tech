@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, Phone } from 'lucide-react';
@@ -11,6 +12,7 @@ import { trackEvent } from '@/lib/analytics';
 
 // Sticky header с backdrop-blur при скролле, мобильным гамбургером и CTA
 export function Header() {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -80,9 +82,11 @@ export function Header() {
               <Button
                 variant="primary"
                 size="sm"
-                className="hidden sm:inline-flex"
+                className="inline-flex"
                 onClick={() => {
-                  document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' });
+                  const form = document.getElementById('lead-form');
+                  if (form) form.scrollIntoView({ behavior: 'smooth' });
+                  else router.push('/#lead-form');
                 }}
               >
                 Заказать

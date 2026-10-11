@@ -255,3 +255,17 @@ grep -r "TODO: REPLACE" --include="*.ts" --include="*.tsx" --include="*.toml" --
 - `public/_headers` — URL Cloudflare Worker
 - `.github/workflows/deploy.yml` — домен для CNAME
 - `workers/telegram-bot/wrangler.toml` — KV namespace ID, routes
+
+
+## Обновление фотографий и парка техники (октябрь 2026)
+
+Каталог: `/equipment/`. Актуальные машины: Volvo EC 25, Messersi M-18BE, XCMG XE-35U.
+3D-компоненты и зависимости удалены, используются локальные WebP и фотогалереи.
+Старый адрес `/equipment/cat-226b/` сохранён как страница перехода к актуальному парку.
+
+Сжатие шести исходных JPEG: `node scripts/optimize-photos.mjs /путь/к/фотографиям`.
+Оригиналы не изменяются. По умолчанию источник — папка Downloads текущего пользователя.
+Фото вывоза мусора — сгенерированная иллюстрация; источник и запрос описаны в `docs/site-update-2026-10.md`.
+
+Перед публикацией: `npm run lint`, `npm run type-check`, `npm run build`.
+Публикация происходит через существующий GitHub Actions при push в main.

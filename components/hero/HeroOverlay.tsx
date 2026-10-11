@@ -13,15 +13,15 @@ export function HeroOverlay() {
   };
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+    <div className="relative z-10 container-site flex flex-col items-center lg:items-start justify-center h-full text-center lg:text-left pt-16 pb-28 sm:py-24">
       <motion.div
-        initial="hidden"
+        initial={false}
         animate="visible"
         variants={{
           hidden: {},
           visible: { transition: { staggerChildren: 0.15 } },
         }}
-        className="max-w-4xl"
+        className="w-full max-w-2xl lg:w-[58%]"
       >
         {/* Бейдж */}
         <motion.div
@@ -42,8 +42,8 @@ export function HeroOverlay() {
             hidden: { opacity: 0, y: 30 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
           }}
-          className="font-heading font-bold text-text mb-4 leading-tight"
-          style={{ fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
+          className="font-heading font-bold text-text mb-4 leading-tight text-[clamp(1.9rem,4.4vw,4.3rem)]"
+
         >
           Аренда строительной<br />
           <span className="text-gradient">техники в Бресте</span>
@@ -55,9 +55,9 @@ export function HeroOverlay() {
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
           }}
-          className="text-text-muted text-lg sm:text-xl leading-relaxed mb-8 max-w-2xl mx-auto"
+          className="text-zinc-200 text-base sm:text-lg leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0"
         >
-          Мини-экскаватор Volvo EC25 и мини-погрузчик CAT 226B с опытным оператором.
+          Volvo EC 25, Messersi M-18BE и XCMG XE-35U с опытным оператором.
           Котлованы, траншеи, вывоз мусора, демонтаж. Выезд от 4 часов.
         </motion.p>
 
@@ -67,7 +67,7 @@ export function HeroOverlay() {
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
           }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
         >
           <Button
             variant="primary"

@@ -68,7 +68,7 @@ export default function OgImage() {
         {/* Подзаголовок */}
         <div style={{ display: 'flex', marginBottom: 36 }}>
           <span style={{ fontSize: 28, color: '#A1A1AA' }}>
-            Volvo EC25 · CAT 226B · с оператором · от 4 часов
+            Volvo · Messersi · XCMG · с оператором · от 4 часов
           </span>
         </div>
 

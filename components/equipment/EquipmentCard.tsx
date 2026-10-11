@@ -47,21 +47,24 @@ export function EquipmentCard({
   return (
     <motion.div
       whileHover={{ y: -6, transition: { duration: 0.25 } }}
-      className="group card card-hover flex flex-col"
+      className="group card card-hover flex flex-col h-full min-w-0"
     >
       {/* Фото техники */}
-      <div className="relative overflow-hidden rounded-xl mb-6 bg-surface-2 aspect-[16/9]">
+      <div className="relative overflow-hidden rounded-xl mb-6 bg-surface-2 aspect-[4/3]">
         {!imgError ? (
+          <picture>
+          <source srcSet={`${imageSrc.replace('.webp', '-640.webp')} 640w, ${imageSrc} 960w`} sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw" />
           <Image
             src={imageSrc}
             alt={imageAlt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-contain"
+            sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
             loading="lazy"
             decoding="async"
             onError={() => setImgError(true)}
           />
+          </picture>
         ) : (
           /* Fallback когда файл изображения отсутствует */
           <div className="absolute inset-0 flex items-center justify-center bg-surface-2">
@@ -71,7 +74,7 @@ export function EquipmentCard({
             </div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface/60 to-transparent" />
         <div className="absolute bottom-4 left-4 bg-bg/80 backdrop-blur-sm border border-border rounded-lg px-3 py-1.5">
           <span className="text-accent font-mono font-medium text-sm">{price}</span>
         </div>

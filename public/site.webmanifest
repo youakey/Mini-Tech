@@ -1,7 +1,7 @@
 {
   "name": "МиниТех Брест",
   "short_name": "МиниТех",
-  "description": "Аренда мини-экскаватора и погрузчика в Бресте",
+  "description": "Аренда мини-экскаваторов в Бресте",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A0A0A",

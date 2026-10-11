@@ -5,7 +5,7 @@ export const SITE = {
   url: 'https://mini-tech.by',
   name: 'МиниТех Брест',
   description:
-    'Аренда строительной мини-техники с оператором в Бресте и Брестской области. Мини-экскаватор Volvo EC25 и мини-погрузчик CAT 226B.',
+    'Аренда строительной мини-техники с оператором в Бресте и Брестской области. Мини-экскаваторы Volvo EC 25, Messersi M-18BE и XCMG XE-35U.',
   locale: 'ru_BY',
   lang: 'ru',
 } as const;
@@ -48,7 +48,7 @@ export const WORKING_HOURS = {
 // TODO: REPLACE — замените на реальные цены после согласования
 export const PRICES = {
   excavator: {
-    hourly: 'от 50 BYN/час',
+    hourly: 'от 85 BYN/час',
     shift: 'от 350 BYN/смена',
     minimum: '4 часа',
   },
@@ -60,37 +60,6 @@ export const PRICES = {
   wasteRemoval: 'от 80 BYN',
   demolition: 'от 150 BYN',
   delivery: 'от 40 BYN (зависит от расстояния)',
-} as const;
-
-export const EQUIPMENT = {
-  volvoEc25: {
-    id: 'volvo-ec25',
-    name: 'Мини-экскаватор Volvo EC25',
-    slug: '/equipment/volvo-ec25',
-    specs: {
-      weight: '2 580 кг',
-      power: '18,5 кВт (25 л.с.)',
-      digDepth: '2 840 мм',
-      bucketCapacity: '0,06–0,09 м³',
-      dimensions: '3 860 × 1 530 × 2 450 мм',
-    },
-    description:
-      'Компактный экскаватор с нулевым радиусом поворота — идеален для работы в стеснённых условиях: у заборов, построек, деревьев.',
-  },
-  cat226b: {
-    id: 'cat-226b',
-    name: 'Мини-погрузчик CAT 226B',
-    slug: '/equipment/cat-226b',
-    specs: {
-      weight: '2 560 кг',
-      power: '42 кВт (57 л.с.)',
-      liftCapacity: '567 кг',
-      tipLoad: '1 134 кг',
-      dimensions: '3 730 × 1 520 × 1 990 мм',
-    },
-    description:
-      'Универсальный мини-погрузчик с быстросменным навесным оборудованием: ковш, вилы, гидромолот, планировочный отвал.',
-  },
 } as const;
 
 export const SEO = {
@@ -107,9 +76,9 @@ export const SEO = {
     'снос сараев гаражей Брест',
   ],
   titleTemplate: '%s | МиниТех Брест',
-  defaultTitle: 'Аренда мини-экскаватора и погрузчика в Бресте | МиниТех',
+  defaultTitle: 'Аренда мини-экскаваторов в Бресте | МиниТех',
   defaultDescription:
-    'Аренда мини-экскаватора Volvo EC25 и мини-погрузчика CAT 226B с опытным оператором в Бресте и Брестской области. Рытьё котлованов, вывоз мусора, демонтаж. Звоните!',
+    'Аренда мини-экскаваторов Volvo EC 25, Messersi M-18BE и XCMG XE-35U с опытным оператором в Бресте и Брестской области. Рытьё котлованов, вывоз мусора, демонтаж. Звоните!',
 } as const;
 
 // TODO: REPLACE — замените после настройки Cloudflare Worker
@@ -128,7 +97,7 @@ export const ANALYTICS = {
 // из массивов EQUIPMENT_DATA и SERVICES_DATA (data/equipment.ts, data/services.ts).
 export const NAV_LINKS = [
   { label: 'Главная', href: '/' },
-  { label: 'Техника', href: '#', hasDropdown: 'equipment' as const },
+  { label: 'Техника', href: '/equipment/' },
   { label: 'Услуги', href: '#', hasDropdown: 'services' as const },
   { label: 'Блог', href: '/blog/' },
   { label: 'Контакты', href: '/contacts/' },

@@ -61,7 +61,7 @@ export function Nav() {
           }
 
           const children = getDropdownItems(hasDropdown);
-          const prefix = hasDropdown === 'equipment' ? '/equipment' : '/services';
+          const prefix = '/services';
           const isActive = pathname.startsWith(prefix);
 
           return (
@@ -72,6 +72,8 @@ export function Nav() {
               onMouseLeave={closeMenu}
             >
               <button
+                onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
+                onKeyDown={(event) => { if (event.key === 'Escape') setOpenDropdown(null); }}
                 aria-haspopup="true"
                 aria-expanded={openDropdown === link.label}
                 className={[

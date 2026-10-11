@@ -23,7 +23,7 @@ export function CTAFormSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Левая колонка: текст + контакты */}
           <motion.div
-            initial="hidden"
+            initial={false}
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
             variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
@@ -49,13 +49,13 @@ export function CTAFormSection() {
               onClick={() => trackEvent('phone_click')}
               itemProp="telephone"
             >
-              <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center
+              <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/10 flex items-center justify-center
                               text-accent group-hover:bg-accent group-hover:text-bg transition-all duration-300">
                 <Phone size={24} />
               </div>
               <div>
                 <p className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Позвонить</p>
-                <p className="text-text font-heading font-bold text-2xl group-hover:text-accent transition-colors">
+                <p className="text-text font-heading font-bold text-xl sm:text-2xl group-hover:text-accent transition-colors">
                   {CONTACTS.phone}
                 </p>
               </div>
@@ -108,11 +108,11 @@ export function CTAFormSection() {
 
           {/* Правая колонка: форма */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={false}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="bg-surface border border-border rounded-2xl p-6 sm:p-8"
+            className="min-w-0 bg-surface border border-border rounded-2xl p-5 sm:p-8"
           >
             <h3 className="font-heading font-bold text-text text-xl mb-6">
               Оставить заявку

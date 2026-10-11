@@ -48,7 +48,7 @@ const ADVANTAGES: Advantage[] = [
 const STATS: Stat[] = [
   { value: 200, suffix: '+', label: 'выполненных заказов' },
   { value: 10, suffix: ' лет', label: 'опыта оператора' },
-  { value: 2, suffix: '', label: 'единицы техники' },
+  { value: 3, suffix: '', label: 'единицы техники' },
   { value: 15, suffix: ' мин', label: 'время ответа' },
 ];
 
