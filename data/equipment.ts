@@ -76,7 +76,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
       { label: 'Максимальная глубина копания', value: '2 840 мм' },
       { label: 'Вместимость ковша', value: '0,06–0,09 м³' },
       { label: 'Габаритные размеры (Д×Ш×В)', value: '3 860 × 1 530 × 2 450 мм' },
-      { label: 'Аренда от', value: 'от 85 BYN/час' },
+      { label: 'Аренда от', value: 'от 75 BYN/час' },
       { label: 'Минимальная смена', value: '4 часа' },
     ],
     cardSpecs: [
@@ -92,7 +92,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
       'Погрузка грунта и сыпучих материалов',
       'Работы в стеснённых условиях: у заборов, стен, деревьев',
     ],
-    priceDisplay: 'от 85 BYN/час',
+    priceDisplay: 'от 75 BYN/час',
     priceNote: 'BYN/час',
     minBooking: '4 часа',
     attachments: [
@@ -112,9 +112,9 @@ export const EQUIPMENT_DATA: Equipment[] = [
     seo: {
       title: 'Аренда мини-экскаватора Volvo EC25 в Бресте | МиниТех Брест',
       metaDescription:
-        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте и Брестской области. Рытьё котлованов, траншей, планировка участка. Цена от 85 BYN/час. Выезд в день обращения.',
+        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте и Брестской области. Рытьё котлованов, траншей, планировка участка. Цена от 75 BYN/час. Выезд в день обращения.',
       ogDescription:
-        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте. Цена от 85 BYN/час, минимальная смена 4 часа.',
+        'Аренда мини-экскаватора Volvo EC25 с оператором в Бресте. Цена от 75 BYN/час, минимальная смена 4 часа.',
       capabilitiesTitle: 'Что умеет экскаватор',
       capabilitiesSubtitle: 'Аренда мини-экскаватора Volvo EC25 в Бресте и Брестской области',
       seoSections: [
@@ -142,13 +142,13 @@ export const EQUIPMENT_DATA: Equipment[] = [
 // Карточки описывают назначение техники без неподтверждённых числовых характеристик.
 const additionalEquipment = [
   {
-    slug: 'messersi-m18be', model: 'Messersi M-18BE', order: 2,
+    slug: 'messersi-m18be', model: 'Messersi M-18BE', hourly: 75, order: 2,
     description: 'Компактный мини-экскаватор для земляных работ на частных участках. Подойдёт для траншей под коммуникации, подготовки основания и работы рядом с забором или постройками.',
     tasks: ['Копка траншей под коммуникации', 'Земляные работы на частных участках', 'Подготовка основания под благоустройство', 'Погрузка грунта и планировка территории'],
     images: [{ src: '/images/equipment/messersi-m18be/thumb.webp', alt: 'Мини-экскаватор Messersi M-18BE с ковшом на участке' }],
   },
   {
-    slug: 'xcmg-xe35u', model: 'XCMG XE-35U', order: 3,
+    slug: 'xcmg-xe35u', model: 'XCMG XE-35U', hourly: 85, order: 3,
     description: 'Мини-экскаватор для котлованов, траншей и демонтажа. Ковш — для земляных работ и погрузки, гидромолот — для разрушения бетона и твёрдых покрытий.',
     tasks: ['Рытьё котлованов и траншей', 'Демонтаж бетона и покрытий гидромолотом', 'Погрузка строительного мусора и грунта', 'Расчистка и подготовка площадки'],
     images: [
@@ -165,7 +165,7 @@ for (const machine of additionalEquipment) {
     specs: [
       { label: 'Модель', value: machine.model },
       { label: 'Управление', value: 'С оператором' },
-      { label: 'Стоимость аренды', value: 'от 85 BYN/час' },
+      { label: 'Стоимость аренды', value: `от ${machine.hourly} BYN/час` },
       { label: 'Минимальное время аренды', value: '4 часа' },
       { label: 'Доставка', value: 'Брест и Брестская область' },
     ],
@@ -174,11 +174,11 @@ for (const machine of additionalEquipment) {
       { iconKey: 'power', label: 'Аренда', value: 'С оператором' },
       { iconKey: 'weight', label: 'Выезд', value: 'От 4 часов' },
     ],
-    capabilities: machine.tasks, priceDisplay: 'от 85 BYN/час', priceNote: 'BYN/час', minBooking: '4 часа',
+    capabilities: machine.tasks, priceDisplay: `от ${machine.hourly} BYN/час`, priceNote: 'BYN/час', minBooking: '4 часа',
     images: machine.images, featured: true, order: machine.order,
     seo: {
       title: `Аренда ${machine.model} в Бресте`,
-      metaDescription: `Аренда мини-экскаватора ${machine.model} с оператором в Бресте и Брестской области. ${machine.description} Стоимость от 85 BYN/час.`,
+      metaDescription: `Аренда мини-экскаватора ${machine.model} с оператором в Бресте и Брестской области. ${machine.description} Стоимость от ${machine.hourly} BYN/час.`,
       ogDescription: machine.description,
       capabilitiesTitle: 'Для каких работ подойдёт',
       capabilitiesSubtitle: `Подберём ${machine.model} под задачу и условия вашего участка`,

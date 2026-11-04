@@ -48,7 +48,7 @@ export const WORKING_HOURS = {
 // TODO: REPLACE — замените на реальные цены после согласования
 export const PRICES = {
   excavator: {
-    hourly: 'от 85 BYN/час',
+    hourly: 'от 75 BYN/час',
     shift: 'от 350 BYN/смена',
     minimum: '4 часа',
   },

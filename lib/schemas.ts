@@ -59,7 +59,7 @@ export function localBusinessSchema() {
     areaServed: [
       'Брест', 'Берёза', 'Барановичи', 'Пинск', 'Кобрин', 'Пружаны', 'Брестская область',
     ].map((name) => ({ '@type': 'City', name })),
-    priceRange: 'от 85 BYN/час',
+    priceRange: 'от 75 BYN/час',
     currenciesAccepted: 'BYN',
     paymentAccepted: 'Cash, Bank Transfer',
   };
